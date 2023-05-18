@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Lapinsky Chess</title>
+  <title>Lapinsky Chess Links</title>
   <style>
     body {
       margin: 0;
@@ -102,23 +102,47 @@
       background-color: #111111;
     }
     
-    .banner {
-      background-color: red;
-      padding: 10px;
-      text-align: center;
+    .contact-box {
+      background-color: #333333;
+      padding: 40px;
+      text-align: left;
+      margin-top: 40px;
+    }
+    
+    .contact-box h2 {
+      font-size: 24px;
+      margin-top: 0;
       font-weight: bold;
-      font-size: 20px;
+    }
+    
+    .contact-form input[type="text"],
+    .contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    
+    .contact-form button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .contact-form button:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
 <body>
-  <div class="banner">
-    Work In Progress. Not final site
-  </div>
-  
   <div class="container">
     <div class="card">
-      <h1>Chess Videos</h1>
+      <h1>Lapinsky Chess Youtube</h1>
       <a href="https://www.youtube.com/channel/UCgex6WVvdDlYb-hzwyArUew" class="button">Go to Lapinsky Chess's Channel</a>
     </div>
     <div class="card">
@@ -139,11 +163,11 @@
     </div>
   </div>
   
-<div class="dark-grey-box">
+  <div class="dark-grey-box">
     <p><a href="https://www.chess.com/analysis/game/live/77842931629?tab=review" style="font-size: 30px; font-weight: bold;">My Immortal Game. This game I had 95% Accuracy ans he resigned once he blundered his Queen</a></p>
   </div>
-
-<div class="chess-rules-box">
+  
+  <div class="chess-rules-box">
     <h2>Chess Rules</h2>
     <p>Chess is a strategic board game played between two players. The goal of the game is to checkmate your opponent's king, putting it in a position where it is under attack and cannot escape capture.</p>
     <p>Each player starts with 16 pieces: one king, one queen, two rooks, two knights, two bishops, and eight pawns. The pieces are positioned on a square grid board consisting of 64 squares of alternating colors.</p>
@@ -166,6 +190,17 @@
     <p>Stalemate occurs when the player whose turn it is to move has no legal moves but is not in check. In this case, the game ends in a draw.</p>
   </div>
   
+  <div class="contact-box">
+    <h2>Contact Me</h2>
+    <form class="contact-form" action="mailto:Aidenlapinsky@gmail.com" method="post" enctype="text/plain">
+      <label for="email">Your Email:</label><br>
+      <input type="text" id="email" name="email" required><br>
+      <label for="message">Message:</label><br>
+      <textarea id="message" name="message" rows="4" required></textarea><br>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+  
   <script>
     function enableScroll() {
       document.body.style.overflow = "auto";
@@ -173,4 +208,3 @@
   </script>
 </body>
 </html>
-
