@@ -1,4 +1,5 @@
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
   <title>Lapinsky Chess Links</title>
   <style>
@@ -6,59 +7,80 @@
       margin: 0;
       padding: 20px;
       font-family: Arial, sans-serif;
-      background-color: #333333; /* Darker background color */
+      background-color: #000000; /* Black background color */
       color: white; /* Text color */
+    }
+    
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .card {
+      background-color: #111111; /* Darker background color for card */
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4); /* Shadow-like layer */
     }
     
     h1 {
-      font-size: 36px; /* Bigger font size */
+      font-size: 24px;
+      margin-top: 0;
       font-weight: bold; /* Bold font */
-      margin-bottom: 20px; /* Increase margin for visual separation */
     }
     
     p {
-      font-size: 18px; /* Bigger font size */
-      line-height: 1.5; /* Increase line height for better readability */
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: bold; /* Bold font */
     }
     
     .description {
-      font-size: 14px; /* Bigger font size */
-      color: white; /* Text color */
-      font-weight: bold; /* Bold font */
-      margin-bottom: 10px; /* Increase margin for visual separation */
+      font-size: 12px;
+      color: gray;
     }
     
     .button {
       display: inline-block;
       padding: 10px 20px;
-      background-color: white; /* White button */
-      color: black; /* Text color */
+      background-color: #4CAF50;
+      color: white;
       text-decoration: none;
       border-radius: 4px;
       transition: background-color 0.3s ease;
-      font-size: 20px; /* Bigger font size */
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); /* Shadow-like layer */
       font-weight: bold; /* Bold font */
-      margin-right: 10px; /* Add margin for spacing */
     }
     
     .button:hover {
-      background-color: #f2f2f2; /* Lighter background color on hover */
+      background-color: #45a049;
     }
   </style>
 </head>
 <body>
-  <h1>Lapinsky Chess Links</h1>
-  <p class="description"><strong>Chess is a strategic board game played between two players. It involves critical thinking and planning to outmaneuver your opponent and checkmate their king.</strong></p>
-  <p>
-    <a href="https://www.youtube.com/channel/UCgex6WVvdDlYb-hzwyArUew" class="button">Go to Lapinsky Chess's Channel</a>
-  </p>
-  <p>
-    <a href="https://www.chess.com/member/lapinskychess" class="button">Lapinsky Chess's Chess Account</a>
-  </p>
-  <p>
-    <a href="https://www.chess.com" class="button">Chess.com Website</a>
-    <a href="https://www.chess.com/learn" class="button">Chess.com Learning Center</a>
-    <a href="https://www.chess.com/play" class="button">Play Chess on Chess.com</a>
-  </p>
+  <div class="container">
+    <div class="card">
+      <h1>Lapinsky Chess Links</h1>
+      <p class="description">Chess is a strategic board game played between two players. It involves critical thinking and planning to outmaneuver your opponent and checkmate their king.</p>
+      <a href="https://www.youtube.com/channel/UCgex6WVvdDlYb-hzwyArUew" class="button">Go to Lapinsky Chess's Channel</a>
+    </div>
+    <div class="card">
+      <h1>Lapinsky Chess's Chess Account</h1>
+      <a href="https://www.chess.com/member/lapinskychess" class="button">Visit Lapinsky Chess's Chess Account</a>
+    </div>
+    <div class="card">
+      <h1>Chess.com Website</h1>
+      <a href="https://www.chess.com" class="button">Visit Chess.com</a>
+    </div>
+    <div class="card">
+      <h1>Chess.com Learning Center</h1>
+      <a href="https://www.chess.com/learn" class="button">Visit Chess.com Learning Center</a>
+    </div>
+    <div class="card">
+      <h1>Play Chess on Chess.com</h1>
+      <a href="https://www.chess.com/play" class="button">Play Chess on Chess.com</a>
+    </div>
+  </div>
 </body>
 </html>
