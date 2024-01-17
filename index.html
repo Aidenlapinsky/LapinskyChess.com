@@ -24,10 +24,10 @@
       background-color: #00F;
       position: absolute;
     }
-    .barrier {
+    .apple {
       width: 20px;
       height: 20px;
-      background-color: #FF6347; /* Tomato color for the barrier */
+      background-color: #FF0000; /* Red color for the apple */
       position: absolute;
     }
     #losing-message {
@@ -44,27 +44,39 @@
 </head>
 <body>
   <div id="snake-game"></div>
-  <div id="losing-message">You Lose!</div>
+  <div id="losing-message">You Lose! Click to play again.</div>
 
   <script>
     const gridSize = 20;
     let snake = [{ x: 5, y: 5 }];
-    let target = { x: 5, y: 5 };
-    const barrier = { x: 15, y: 10 };
+    let apples = [];
+    let direction = "right";
     let isGameOver = false;
 
     function createGameBoard() {
       const snakeGame = document.getElementById("snake-game");
-      snakeGame.style.width = gridSize * 20 + "px";
-      snakeGame.style.height = gridSize * 20 + "px";
+      snakeGame.style.width = gridSize * 30 + "px";
+      snakeGame.style.height = gridSize * 30 + "px";
 
+      createSnake();
+      createApples();
+
+      document.addEventListener("keydown", changeDirection);
+      document.addEventListener("click", handleRestartClick);
+    }
+
+    function createSnake() {
+      const snakeGame = document.getElementById("snake-game");
       snake.forEach(segment => {
         const snakeSegment = createSegment("snake", segment);
         snakeGame.appendChild(snakeSegment);
       });
+    }
 
-      const barrierElement = createSegment("barrier", barrier);
-      snakeGame.appendChild(barrierElement);
+    function createApples() {
+      for (let i = 0; i < 5; i++) {
+        spawnApple();
+      }
     }
 
     function createSegment(className, position) {
@@ -75,27 +87,80 @@
       return segment;
     }
 
+    function spawnApple() {
+      const x = Math.floor(Math.random() * 30);
+      const y = Math.floor(Math.random() * 30);
+
+      const apple = { x, y };
+      apples.push(apple);
+
+      const snakeGame = document.getElementById("snake-game");
+      const appleElement = createSegment("apple", apple);
+      snakeGame.appendChild(appleElement);
+    }
+
     function moveSnake() {
       if (isGameOver) return;
 
       const head = { ...snake[0] };
 
-      if (head.x < target.x) {
-        head.x += 1;
-      } else if (head.x > target.x) {
-        head.x -= 1;
+      switch (direction) {
+        case "up":
+          head.y -= 1;
+          break;
+        case "down":
+          head.y += 1;
+          break;
+        case "left":
+          head.x -= 1;
+          break;
+        case "right":
+          head.x += 1;
+          break;
       }
 
-      if (head.y < target.y) {
-        head.y += 1;
-      } else if (head.y > target.y) {
-        head.y -= 1;
-      }
+      checkCollision(head);
 
       snake.unshift(head);
-      snake.pop();
 
-      checkCollision();
+      checkAppleCollision(head);
+
+      if (!isGameOver) {
+        const tail = snake.pop();
+        removeSegment(tail);
+      }
+
+      drawSnake();
+    }
+
+    function checkCollision(head) {
+      if (head.x < 0 || head.x >= 30 || head.y < 0 || head.y >= 30) {
+        isGameOver = true;
+        showLosingMessage();
+      }
+
+      for (let i = 1; i < snake.length; i++) {
+        if (head.x === snake[i].x && head.y === snake[i].y) {
+          isGameOver = true;
+          showLosingMessage();
+        }
+      }
+    }
+
+    function checkAppleCollision(head) {
+      const index = apples.findIndex(apple => apple.x === head.x && apple.y === head.y);
+
+      if (index !== -1) {
+        apples.splice(index, 1);
+        spawnApple();
+
+        const tail = { ...snake[snake.length - 1] };
+        snake.push(tail);
+
+        const snakeGame = document.getElementById("snake-game");
+        const tailElement = createSegment("snake", tail);
+        snakeGame.appendChild(tailElement);
+      }
     }
 
     function drawSnake() {
@@ -107,33 +172,27 @@
         snakeGame.appendChild(snakeSegment);
       });
 
-      const barrierElement = createSegment("barrier", barrier);
-      snakeGame.appendChild(barrierElement);
+      apples.forEach(apple => {
+        const appleElement = createSegment("apple", apple);
+        snakeGame.appendChild(appleElement);
+      });
     }
 
-    function checkCollision() {
-      const head = snake[0];
-
-      if (head.x === barrier.x && head.y === barrier.y) {
-        isGameOver = true;
-        showLosingMessage();
+    function changeDirection(event) {
+      if (event.key === "ArrowUp" && direction !== "down") {
+        direction = "up";
+      } else if (event.key === "ArrowDown" && direction !== "up") {
+        direction = "down";
+      } else if (event.key === "ArrowLeft" && direction !== "right") {
+        direction = "left";
+      } else if (event.key === "ArrowRight" && direction !== "left") {
+        direction = "right";
       }
     }
 
-    function handleTap(event) {
-      if (isGameOver) {
-        resetGame();
-        return;
-      }
-
-      const x = event.clientX;
-      const y = event.clientY;
-
-      const snakeGame = document.getElementById("snake-game");
-      const rect = snakeGame.getBoundingClientRect();
-
-      target.x = Math.floor((x - rect.left) / gridSize);
-      target.y = Math.floor((y - rect.top) / gridSize);
+    function removeSegment(segment) {
+      const element = document.querySelector(`.snake[data-x="${segment.x}"][data-y="${segment.y}"]`);
+      element.remove();
     }
 
     function showLosingMessage() {
@@ -141,22 +200,33 @@
       losingMessage.style.display = "block";
     }
 
+    function handleRestartClick() {
+      if (isGameOver) {
+        resetGame();
+      }
+    }
+
     function resetGame() {
       snake = [{ x: 5, y: 5 }];
-      target = { x: 5, y: 5 };
+      apples = [];
+      direction = "right";
       isGameOver = false;
 
       const losingMessage = document.getElementById("losing-message");
       losingMessage.style.display = "none";
+
+      const snakeGame = document.getElementById("snake-game");
+      snakeGame.innerHTML = "";
+
+      createSnake();
+      createApples();
     }
 
     function gameLoop() {
       moveSnake();
-      drawSnake();
     }
 
     createGameBoard();
-    document.addEventListener("click", handleTap);
     setInterval(gameLoop, 200);
   </script>
 </body>
