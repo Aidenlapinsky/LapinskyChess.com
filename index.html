@@ -59,6 +59,7 @@
     let barriers = [];
     let isGameOver = false;
     let direction = "right";
+    let nextDirection = "right";
 
     function createGameBoard() {
       const snakeGame = document.getElementById("snake-game");
@@ -88,8 +89,13 @@
     }
 
     function createBarriers() {
-      for (let i = 0; i < 5; i++) {
-        spawnBarrier();
+      for (let x = 0; x < 30; x++) {
+        spawnBarrier(0, x);
+        spawnBarrier(29, x);
+      }
+      for (let y = 1; y < 29; y++) {
+        spawnBarrier(y, 0);
+        spawnBarrier(y, 29);
       }
     }
 
@@ -113,10 +119,7 @@
       snakeGame.appendChild(appleElement);
     }
 
-    function spawnBarrier() {
-      const x = Math.floor(Math.random() * 30);
-      const y = Math.floor(Math.random() * 30);
-
+    function spawnBarrier(x, y) {
       const barrier = { x, y };
       barriers.push(barrier);
 
@@ -127,6 +130,8 @@
 
     function moveSnake() {
       if (isGameOver) return;
+
+      direction = nextDirection;
 
       const head = { ...snake[0] };
 
@@ -232,22 +237,22 @@
       switch (event.key) {
         case "ArrowUp":
           if (direction !== "down") {
-            direction = "up";
+            nextDirection = "up";
           }
           break;
         case "ArrowDown":
           if (direction !== "up") {
-            direction = "down";
+            nextDirection = "down";
           }
           break;
         case "ArrowLeft":
           if (direction !== "right") {
-            direction = "left";
+            nextDirection = "left";
           }
           break;
         case "ArrowRight":
           if (direction !== "left") {
-            direction = "right";
+            nextDirection = "right";
           }
           break;
       }
@@ -265,6 +270,7 @@
       barriers = [];
       isGameOver = false;
       direction = "right";
+      nextDirection = "right";
 
       const losingMessage = document.getElementById("losing-message");
       losingMessage.style.display = "none";
@@ -282,7 +288,7 @@
     }
 
     createGameBoard();
-    setInterval(gameLoop, 200);
+    setInterval(gameLoop, 100);
   </script>
 </body>
 </html>
