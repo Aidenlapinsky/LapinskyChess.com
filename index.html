@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Website</title>
+    <title>Password Protected Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            text-align: center;
         }
 
-        header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 1em;
+        main {
+            padding: 2em;
         }
 
-        nav {
-            text-align: center;
-            margin: 1em 0;
+        input {
+            padding: 0.5em;
+            font-size: 1em;
+            margin: 0.5em;
         }
 
         button {
@@ -29,20 +28,50 @@
             font-size: 1em;
             margin: 0.5em;
         }
+
+        #passwordContent {
+            display: block;
+        }
+
+        #hiddenContent {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Your Website Header</h1>
-    </header>
+    <main>
+        <div id="passwordContent">
+            <h2>Enter the Password to Reveal Content</h2>
+            <input type="password" id="passwordInput" placeholder="Enter Password">
+            <button onclick="checkPassword()">Submit</button>
+        </div>
 
-    <nav>
-        <button>Home</button>
-        <button>About</button>
-        <button>Contact</button>
-    </nav>
+        <div id="hiddenContent">
+            <!-- Original HTML Content -->
+            <header>
+                <h1>Your Website Header</h1>
+            </header>
 
-    <!-- Your content goes here -->
+            <nav>
+                <button>Home</button>
+                <button>About</button>
+                <button>Contact</button>
+            </nav>
 
+            <!-- Your content goes here -->
+        </div>
+    </main>
+
+    <script>
+        function checkPassword() {
+            var password = document.getElementById("passwordInput").value;
+            if (password === "123456789") {
+                document.getElementById("passwordContent").style.display = "none";
+                document.getElementById("hiddenContent").style.display = "block";
+            } else {
+                alert("Incorrect Password. Please try again.");
+            }
+        }
+    </script>
 </body>
 </html>
