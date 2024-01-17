@@ -57,12 +57,16 @@
 
     <script>
         function checkPassword() {
-            var password = document.getElementById("passwordInput").value;
+            var passwordInput = document.getElementById("passwordInput");
+            var password = passwordInput.value;
             if (password === "123456789") {
                 document.getElementById("passwordContent").style.display = "none";
                 document.getElementById("hiddenContent").style.display = "block";
             } else {
-                alert("Incorrect Password. Please try again.");
+                passwordInput.value = "";
+                setTimeout(function() {
+                    passwordInput.focus();
+                }, 0);
             }
         }
     </script>
