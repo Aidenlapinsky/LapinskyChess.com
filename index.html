@@ -37,6 +37,10 @@
         #hiddenContent {
             display: none;
         }
+
+        #hint {
+            margin-top: 2em;
+        }
     </style>
 </head>
 <body>
@@ -45,12 +49,17 @@
             <h2>Enter the Password to Reveal Content</h2>
             <input type="password" id="passwordInput" placeholder="Enter Password">
             <button onclick="checkPassword()">Submit</button>
+            
+            <div id="hint">
+                <h3>Hint</h3>
+                <p>What has keys but can't open locks?</p>
+            </div>
         </div>
 
         <div id="hiddenContent">
             <!-- Revealed Content -->
             <header>
-                <h1>Your adopted</h1>
+                <h1>If you're reading this, you have to give Aiden 1 pack of gummies</h1>
             </header>
         </div>
     </main>
@@ -58,8 +67,10 @@
     <script>
         function checkPassword() {
             var passwordInput = document.getElementById("passwordInput");
-            var password = passwordInput.value;
-            if (password === "123456789") {
+            var password = passwordInput.value.toLowerCase(); // Convert to lowercase for case-insensitive comparison
+            var correctAnswer = "piano";
+            
+            if (password === correctAnswer) {
                 document.getElementById("passwordContent").style.display = "none";
                 document.getElementById("hiddenContent").style.display = "block";
             } else {
