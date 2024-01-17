@@ -50,7 +50,7 @@
 </head>
 <body>
   <div id="snake-game"></div>
-  <div id="losing-message">You Lose! Click to play again.</div>
+  <div id="losing-message">You Lose! Press any key to play again.</div>
 
   <script>
     const gridSize = 20;
@@ -58,6 +58,7 @@
     let apples = [];
     let barriers = [];
     let isGameOver = false;
+    let direction = "right";
 
     function createGameBoard() {
       const snakeGame = document.getElementById("snake-game");
@@ -68,7 +69,7 @@
       createApples();
       createBarriers();
 
-      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("keydown", handleKeyDown);
       document.addEventListener("click", handleRestartClick);
     }
 
@@ -129,13 +130,20 @@
 
       const head = { ...snake[0] };
 
-      const mouseX = head.x * gridSize + gridSize / 2;
-      const mouseY = head.y * gridSize + gridSize / 2;
-
-      const angle = Math.atan2(event.clientY - mouseY, event.clientX - mouseX);
-
-      head.x += Math.cos(angle);
-      head.y += Math.sin(angle);
+      switch (direction) {
+        case "up":
+          head.y -= 1;
+          break;
+        case "down":
+          head.y += 1;
+          break;
+        case "left":
+          head.x -= 1;
+          break;
+        case "right":
+          head.x += 1;
+          break;
+      }
 
       checkCollision(head);
 
@@ -220,8 +228,29 @@
       losingMessage.style.display = "block";
     }
 
-    function handleMouseMove(event) {
-      moveSnake(event);
+    function handleKeyDown(event) {
+      switch (event.key) {
+        case "ArrowUp":
+          if (direction !== "down") {
+            direction = "up";
+          }
+          break;
+        case "ArrowDown":
+          if (direction !== "up") {
+            direction = "down";
+          }
+          break;
+        case "ArrowLeft":
+          if (direction !== "right") {
+            direction = "left";
+          }
+          break;
+        case "ArrowRight":
+          if (direction !== "left") {
+            direction = "right";
+          }
+          break;
+      }
     }
 
     function handleRestartClick() {
@@ -235,6 +264,7 @@
       apples = [];
       barriers = [];
       isGameOver = false;
+      direction = "right";
 
       const losingMessage = document.getElementById("losing-message");
       losingMessage.style.display = "none";
@@ -252,7 +282,7 @@
     }
 
     createGameBoard();
-    setInterval(gameLoop, 50);
+    setInterval(gameLoop, 200);
   </script>
 </body>
 </html>
