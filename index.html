@@ -1,85 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Protected Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            color: #ff0000;
-            text-align: center;
-        }
-
-        main {
-            padding: 2em;
-        }
-
-        input {
-            padding: 0.5em;
-            font-size: 1em;
-            margin: 0.5em;
-        }
-
-        button {
-            padding: 0.5em 1em;
-            font-size: 1em;
-            margin: 0.5em;
-        }
-
-        #passwordContent, #hiddenContent {
-            display: block;
-        }
-
-        #hiddenContent {
-            display: none;
-        }
-
-        #hint {
-            margin-top: 2em;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    #snake-game {
+      border: 1px solid #ddd;
+    }
+    .snake {
+      width: 20px;
+      height: 20px;
+      background-color: #00F;
+      position: absolute;
+    }
+  </style>
+  <title>Snake Game</title>
 </head>
 <body>
-    <main>
-        <div id="passwordContent">
-            <h2>Enter the Password to Reveal Content</h2>
-            <input type="password" id="passwordInput" placeholder="Enter Password">
-            <button onclick="checkPassword()">Submit</button>
-            
-            <div id="hint">
-                <h3>Hint</h3>
-                <p>What has keys but can't open locks?</p>
-            </div>
-        </div>
+  <div id="snake-game"></div>
 
-        <div id="hiddenContent">
-            <!-- Revealed Content -->
-            <header>
-                <h1>If you're reading this, you have to give Aiden 1 pack of gummies</h1>
-            </header>
-        </div>
-    </main>
+  <script>
+    const gridSize = 20;
+    let snake = [{ x: 5, y: 5 }];
+    let direction = "right";
 
-    <script>
-        function checkPassword() {
-            var passwordInput = document.getElementById("passwordInput");
-            var password = passwordInput.value.toLowerCase(); // Convert to lowercase for case-insensitive comparison
-            var correctAnswer = "piano";
-            
-            if (password === correctAnswer) {
-                document.getElementById("passwordContent").style.display = "none";
-                document.getElementById("hiddenContent").style.display = "block";
-            } else {
-                passwordInput.value = "";
-                setTimeout(function() {
-                    passwordInput.focus();
-                }, 0);
-            }
-        }
-    </script>
+    function createGameBoard() {
+      const snakeGame = document.getElementById("snake-game");
+      snakeGame.style.width = gridSize * 20 + "px";
+      snakeGame.style.height = gridSize * 20 + "px";
+
+      snake.forEach(segment => {
+        const snakeSegment = document.createElement("div");
+        snakeSegment.className = "snake";
+        snakeSegment.style.left = segment.x * gridSize + "px";
+        snakeSegment.style.top = segment.y * gridSize + "px";
+        snakeGame.appendChild(snakeSegment);
+      });
+    }
+
+    function moveSnake() {
+      const head = { ...snake[0] };
+
+      switch (direction) {
+        case "up":
+          head.y -= 1;
+          break;
+        case "down":
+          head.y += 1;
+          break;
+        case "left":
+          head.x -= 1;
+          break;
+        case "right":
+          head.x += 1;
+          break;
+      }
+
+      snake.unshift(head);
+      snake.pop();
+    }
+
+    function drawSnake() {
+      const snakeGame = document.getElementById("snake-game");
+      snakeGame.innerHTML = "";
+
+      snake.forEach(segment => {
+        const snakeSegment = document.createElement("div");
+        snakeSegment.className = "snake";
+        snakeSegment.style.left = segment.x * gridSize + "px";
+        snakeSegment.style.top = segment.y * gridSize + "px";
+        snakeGame.appendChild(snakeSegment);
+      });
+    }
+
+    function changeDirection(event) {
+      const key = event.key.toLowerCase();
+      if (key === "arrowup" && direction !== "down") {
+        direction = "up";
+      } else if (key === "arrowdown" && direction !== "up") {
+        direction = "down";
+      } else if (key === "arrowleft" && direction !== "right") {
+        direction = "left";
+      } else if (key === "arrowright" && direction !== "left") {
+        direction = "right";
+      }
+    }
+
+    function handleTouchMove(event) {
+      const touch = event.touches[0];
+      const x = touch.clientX;
+      const y = touch.clientY;
+
+      const snakeGame = document.getElementById("snake-game");
+      const rect = snakeGame.getBoundingClientRect();
+
+      const offsetX = x - rect.left;
+      const offsetY = y - rect.top;
+
+      const head = snake[0];
+
+      if (offsetX < head.x * gridSize && direction !== "right") {
+        direction = "left";
+      } else if (offsetX > (head.x + 1) * gridSize && direction !== "left") {
+        direction = "right";
+      } else if (offsetY < head.y * gridSize && direction !== "down") {
+        direction = "up";
+      } else if (offsetY > (head.y + 1) * gridSize && direction !== "up") {
+        direction = "down";
+      }
+    }
+
+    function gameLoop() {
+      moveSnake();
+      drawSnake();
+    }
+
+    createGameBoard();
+    document.addEventListener("keydown", changeDirection);
+    document.addEventListener("touchmove", handleTouchMove);
+    setInterval(gameLoop, 200);
+  </script>
 </body>
 </html>
