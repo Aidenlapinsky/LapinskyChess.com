@@ -11,10 +11,12 @@
       height: 100vh;
       margin: 0;
       overflow: hidden;
-      background-color: #f0f0f0;
+      background: linear-gradient(#87CEEB, #90EE90);
     }
     #snake-game {
+      position: relative;
       border: 1px solid #ddd;
+      background-color: #90EE90;
     }
     .snake {
       width: 20px;
@@ -22,16 +24,34 @@
       background-color: #00F;
       position: absolute;
     }
+    .barrier {
+      width: 20px;
+      height: 20px;
+      background-color: #FF6347; /* Tomato color for the barrier */
+      position: absolute;
+    }
+    #losing-message {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      color: #FF6347; /* Tomato color for the losing message */
+      display: none;
+    }
   </style>
   <title>Snake Game</title>
 </head>
 <body>
   <div id="snake-game"></div>
+  <div id="losing-message">You Lose!</div>
 
   <script>
     const gridSize = 20;
     let snake = [{ x: 5, y: 5 }];
-    let direction = "right";
+    let target = { x: 5, y: 5 };
+    const barrier = { x: 15, y: 10 };
+    let isGameOver = false;
 
     function createGameBoard() {
       const snakeGame = document.getElementById("snake-game");
@@ -39,34 +59,43 @@
       snakeGame.style.height = gridSize * 20 + "px";
 
       snake.forEach(segment => {
-        const snakeSegment = document.createElement("div");
-        snakeSegment.className = "snake";
-        snakeSegment.style.left = segment.x * gridSize + "px";
-        snakeSegment.style.top = segment.y * gridSize + "px";
+        const snakeSegment = createSegment("snake", segment);
         snakeGame.appendChild(snakeSegment);
       });
+
+      const barrierElement = createSegment("barrier", barrier);
+      snakeGame.appendChild(barrierElement);
+    }
+
+    function createSegment(className, position) {
+      const segment = document.createElement("div");
+      segment.className = className;
+      segment.style.left = position.x * gridSize + "px";
+      segment.style.top = position.y * gridSize + "px";
+      return segment;
     }
 
     function moveSnake() {
+      if (isGameOver) return;
+
       const head = { ...snake[0] };
 
-      switch (direction) {
-        case "up":
-          head.y -= 1;
-          break;
-        case "down":
-          head.y += 1;
-          break;
-        case "left":
-          head.x -= 1;
-          break;
-        case "right":
-          head.x += 1;
-          break;
+      if (head.x < target.x) {
+        head.x += 1;
+      } else if (head.x > target.x) {
+        head.x -= 1;
+      }
+
+      if (head.y < target.y) {
+        head.y += 1;
+      } else if (head.y > target.y) {
+        head.y -= 1;
       }
 
       snake.unshift(head);
       snake.pop();
+
+      checkCollision();
     }
 
     function drawSnake() {
@@ -74,49 +103,51 @@
       snakeGame.innerHTML = "";
 
       snake.forEach(segment => {
-        const snakeSegment = document.createElement("div");
-        snakeSegment.className = "snake";
-        snakeSegment.style.left = segment.x * gridSize + "px";
-        snakeSegment.style.top = segment.y * gridSize + "px";
+        const snakeSegment = createSegment("snake", segment);
         snakeGame.appendChild(snakeSegment);
       });
+
+      const barrierElement = createSegment("barrier", barrier);
+      snakeGame.appendChild(barrierElement);
     }
 
-    function changeDirection(event) {
-      const key = event.key.toLowerCase();
-      if (key === "arrowup" && direction !== "down") {
-        direction = "up";
-      } else if (key === "arrowdown" && direction !== "up") {
-        direction = "down";
-      } else if (key === "arrowleft" && direction !== "right") {
-        direction = "left";
-      } else if (key === "arrowright" && direction !== "left") {
-        direction = "right";
+    function checkCollision() {
+      const head = snake[0];
+
+      if (head.x === barrier.x && head.y === barrier.y) {
+        isGameOver = true;
+        showLosingMessage();
       }
     }
 
-    function handleTouchMove(event) {
-      const touch = event.touches[0];
-      const x = touch.clientX;
-      const y = touch.clientY;
+    function handleTap(event) {
+      if (isGameOver) {
+        resetGame();
+        return;
+      }
+
+      const x = event.clientX;
+      const y = event.clientY;
 
       const snakeGame = document.getElementById("snake-game");
       const rect = snakeGame.getBoundingClientRect();
 
-      const offsetX = x - rect.left;
-      const offsetY = y - rect.top;
+      target.x = Math.floor((x - rect.left) / gridSize);
+      target.y = Math.floor((y - rect.top) / gridSize);
+    }
 
-      const head = snake[0];
+    function showLosingMessage() {
+      const losingMessage = document.getElementById("losing-message");
+      losingMessage.style.display = "block";
+    }
 
-      if (offsetX < head.x * gridSize && direction !== "right") {
-        direction = "left";
-      } else if (offsetX > (head.x + 1) * gridSize && direction !== "left") {
-        direction = "right";
-      } else if (offsetY < head.y * gridSize && direction !== "down") {
-        direction = "up";
-      } else if (offsetY > (head.y + 1) * gridSize && direction !== "up") {
-        direction = "down";
-      }
+    function resetGame() {
+      snake = [{ x: 5, y: 5 }];
+      target = { x: 5, y: 5 };
+      isGameOver = false;
+
+      const losingMessage = document.getElementById("losing-message");
+      losingMessage.style.display = "none";
     }
 
     function gameLoop() {
@@ -125,8 +156,7 @@
     }
 
     createGameBoard();
-    document.addEventListener("keydown", changeDirection);
-    document.addEventListener("touchmove", handleTouchMove);
+    document.addEventListener("click", handleTap);
     setInterval(gameLoop, 200);
   </script>
 </body>
