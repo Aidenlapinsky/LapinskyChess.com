@@ -30,6 +30,12 @@
       background-color: #FF0000; /* Red color for the apple */
       position: absolute;
     }
+    .barrier {
+      width: 20px;
+      height: 20px;
+      background-color: #FF6347; /* Tomato color for the barrier */
+      position: absolute;
+    }
     #losing-message {
       position: fixed;
       top: 0;
@@ -50,7 +56,7 @@
     const gridSize = 20;
     let snake = [{ x: 5, y: 5 }];
     let apples = [];
-    let direction = "right";
+    let barriers = [];
     let isGameOver = false;
 
     function createGameBoard() {
@@ -60,8 +66,9 @@
 
       createSnake();
       createApples();
+      createBarriers();
 
-      document.addEventListener("keydown", changeDirection);
+      document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("click", handleRestartClick);
     }
 
@@ -76,6 +83,12 @@
     function createApples() {
       for (let i = 0; i < 5; i++) {
         spawnApple();
+      }
+    }
+
+    function createBarriers() {
+      for (let i = 0; i < 5; i++) {
+        spawnBarrier();
       }
     }
 
@@ -99,25 +112,30 @@
       snakeGame.appendChild(appleElement);
     }
 
+    function spawnBarrier() {
+      const x = Math.floor(Math.random() * 30);
+      const y = Math.floor(Math.random() * 30);
+
+      const barrier = { x, y };
+      barriers.push(barrier);
+
+      const snakeGame = document.getElementById("snake-game");
+      const barrierElement = createSegment("barrier", barrier);
+      snakeGame.appendChild(barrierElement);
+    }
+
     function moveSnake() {
       if (isGameOver) return;
 
       const head = { ...snake[0] };
 
-      switch (direction) {
-        case "up":
-          head.y -= 1;
-          break;
-        case "down":
-          head.y += 1;
-          break;
-        case "left":
-          head.x -= 1;
-          break;
-        case "right":
-          head.x += 1;
-          break;
-      }
+      const mouseX = head.x * gridSize + gridSize / 2;
+      const mouseY = head.y * gridSize + gridSize / 2;
+
+      const angle = Math.atan2(event.clientY - mouseY, event.clientX - mouseX);
+
+      head.x += Math.cos(angle);
+      head.y += Math.sin(angle);
 
       checkCollision(head);
 
@@ -145,13 +163,20 @@
           showLosingMessage();
         }
       }
+
+      for (let i = 0; i < barriers.length; i++) {
+        if (head.x === barriers[i].x && head.y === barriers[i].y) {
+          isGameOver = true;
+          showLosingMessage();
+        }
+      }
     }
 
     function checkAppleCollision(head) {
-      const index = apples.findIndex(apple => apple.x === head.x && apple.y === head.y);
+      const appleIndex = apples.findIndex(apple => apple.x === head.x && apple.y === head.y);
 
-      if (index !== -1) {
-        apples.splice(index, 1);
+      if (appleIndex !== -1) {
+        apples.splice(appleIndex, 1);
         spawnApple();
 
         const tail = { ...snake[snake.length - 1] };
@@ -176,28 +201,27 @@
         const appleElement = createSegment("apple", apple);
         snakeGame.appendChild(appleElement);
       });
-    }
 
-    function changeDirection(event) {
-      if (event.key === "ArrowUp" && direction !== "down") {
-        direction = "up";
-      } else if (event.key === "ArrowDown" && direction !== "up") {
-        direction = "down";
-      } else if (event.key === "ArrowLeft" && direction !== "right") {
-        direction = "left";
-      } else if (event.key === "ArrowRight" && direction !== "left") {
-        direction = "right";
-      }
+      barriers.forEach(barrier => {
+        const barrierElement = createSegment("barrier", barrier);
+        snakeGame.appendChild(barrierElement);
+      });
     }
 
     function removeSegment(segment) {
       const element = document.querySelector(`.snake[data-x="${segment.x}"][data-y="${segment.y}"]`);
-      element.remove();
+      if (element) {
+        element.remove();
+      }
     }
 
     function showLosingMessage() {
       const losingMessage = document.getElementById("losing-message");
       losingMessage.style.display = "block";
+    }
+
+    function handleMouseMove(event) {
+      moveSnake(event);
     }
 
     function handleRestartClick() {
@@ -209,7 +233,7 @@
     function resetGame() {
       snake = [{ x: 5, y: 5 }];
       apples = [];
-      direction = "right";
+      barriers = [];
       isGameOver = false;
 
       const losingMessage = document.getElementById("losing-message");
@@ -220,6 +244,7 @@
 
       createSnake();
       createApples();
+      createBarriers();
     }
 
     function gameLoop() {
@@ -227,7 +252,7 @@
     }
 
     createGameBoard();
-    setInterval(gameLoop, 200);
+    setInterval(gameLoop, 50);
   </script>
 </body>
 </html>
