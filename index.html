@@ -20,13 +20,37 @@
       text-align: center;
     }
 
+    #start-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
     #snake-game {
-      display: inline-block;
       width: 100vw;
       height: 100vh;
       border: 1px solid #ddd;
       background-color: #90EE90;
       position: relative;
+      display: none;
     }
 
     .snake {
@@ -34,7 +58,6 @@
       height: 20px;
       position: absolute;
       background-color: #0000FF;
-      /* Blue color for the snake */
     }
 
     .apple {
@@ -68,26 +91,15 @@
     .message-container {
       text-align: center;
     }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
   </style>
   <title>Snake Game</title>
 </head>
 
 <body>
   <div id="snake-game-container">
+    <div id="start-screen">
+      <button onclick="startGame()">Click here to start now</button>
+    </div>
     <div id="snake-game"></div>
     <div id="losing-message">
       <div class="message-container">
@@ -372,8 +384,16 @@
       touchStartY = 0;
     }
 
-    createGameBoard();
-    setInterval(moveSnake, 150); // Adjusted the interval for slower movement
+    function startGame() {
+      const startScreen = document.getElementById("start-screen");
+      const snakeGame = document.getElementById("snake-game");
+
+      startScreen.style.display = "none";
+      snakeGame.style.display = "block";
+
+      createGameBoard();
+      setInterval(moveSnake, 150);
+    }
   </script>
 </body>
 
