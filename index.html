@@ -350,19 +350,19 @@
 
       if (Math.abs(deltaX) > Math.abs(deltaY)) {
         // Horizontal swipe
-        if (deltaX > 0) {
+        if (deltaX > 0 && direction !== "left") {
           // Swipe right
           nextDirection = "right";
-        } else {
+        } else if (deltaX < 0 && direction !== "right") {
           // Swipe left
           nextDirection = "left";
         }
       } else {
         // Vertical swipe
-        if (deltaY > 0) {
+        if (deltaY > 0 && direction !== "up") {
           // Swipe down
           nextDirection = "down";
-        } else {
+        } else if (deltaY < 0 && direction !== "down") {
           // Swipe up
           nextDirection = "up";
         }
