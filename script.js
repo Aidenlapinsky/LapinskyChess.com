@@ -6,8 +6,8 @@ function checkPassword() {
     const message = document.getElementById("message");
 
     if (passwordInput.value === secretWord) {
-        // Successful login - Redirect or reveal content
-        window.location.href = "welcome.html"; // Replace with your welcome page
+        // Successful login - Redirect to your website
+        window.location.href = "https://aidenlapinsky.github.io/38dhfh402jfjfj29r84kdk02958jdjfjfksl03847502/#"; 
     } else {
         guessesRemaining--;
         message.textContent = "Incorrect! You have " + guessesRemaining + " guesses left.";
