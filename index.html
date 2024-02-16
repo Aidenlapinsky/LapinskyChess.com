@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Word Lock Website</title>
+    <title>Shape Sequence Website</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
    <div class="container">
-       <h1>Guess the Word</h1>
-       <p>You have 1 guess.</p>
-       <input type="password" id="passwordInput" placeholder="Enter the word">
-       <button onclick="checkPassword()">Submit</button>
+       <h1>Shape Sequence</h1>
+       <p>Click the shapes in the correct order.</p>
+       <div id="shapes">
+           <button class="shape circle"></button>
+           <button class="shape square"></button>
+           <button class="shape triangle"></button>
+       </div>
        <div id="message"></div>
    </div>
 
