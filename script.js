@@ -3,6 +3,7 @@ let currentStep = 0;
 let userSequence = [];
 const message = document.getElementById("message");
 const shapesContainer = document.getElementById("shapes");
+const submitButton = document.getElementById("submitButton");
 
 function shapeClicked(shapeClass) {
     userSequence.push(shapeClass); 
@@ -10,15 +11,6 @@ function shapeClicked(shapeClass) {
     if (shapeClass === correctSequence[currentStep]) {
         message.textContent = "Correct!";
         currentStep++;
-
-        if (currentStep === correctSequence.length) {
-            if (arraysMatch(userSequence, correctSequence)) {
-                 window.location.href = "https://aidenlapinsky.github.io/38dhfh402jfjfj29r84kdk02958jdjfjfksl03847502/#";
-            } else {
-                message.textContent = "Incorrect sequence! Try again.";
-                resetGame();
-            }
-        }
     } else {
         message.textContent = "Incorrect! Try again.";
         resetGame();
@@ -30,13 +22,20 @@ function resetGame() {
     userSequence = [];
 }
 
+function checkSequence() {
+    if (arraysMatch(userSequence, correctSequence)) {
+        window.location.href = "https://aidenlapinsky.github.io/38dhfh402jfjfj29r84kdk02958jdjfjfksl03847502/#";
+    } else {
+        message.textContent = "Incorrect sequence! Try again.";
+        resetGame();
+    }
+}
+
 function arraysMatch(arr1, arr2) {
     if (arr1.length !== arr2.length) return false;
-
     for (let i = 0; i < arr1.length; i++) {
         if (arr1[i] !== arr2[i]) return false;
     }
-
     return true;
 }
 
@@ -48,9 +47,13 @@ function createShapeButtons() {
     });
 }
 
-createShapeButtons(); // Call the function to create shapes 
+// Create buttons on page load
+window.addEventListener('load', createShapeButtons);
 
+// Event listeners 
 const shapeButtons = document.querySelectorAll(".shape");  
 shapeButtons.forEach(button => {
     button.addEventListener("click", () => shapeClicked(button.classList[1])); 
 });
+
+submitButton.addEventListener("click", checkSequence);
