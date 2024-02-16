@@ -2,13 +2,124 @@
 <html>
 <head>
     <title>Hexapawn</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        #gameboard {
+            width: 180px; 
+            height: 180px;
+            border: 2px solid black;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+            float: left;
+            text-align: center;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .white { background-color: #f0f0f0; }
+        .black { background-color: #999; }
+
+        .white-pawn { color: #000; }
+        .black-pawn { color: #fff; }
+
+        .selected { background-color: #ddd; }
+    </style>
 </head>
 <body>
     <h1>Hexapawn</h1>
     <div id="gameboard"></div>
     <p id="turn">White's Turn</p>
 
-    <script src="script.js"></script>
+    <script>
+        const gameboard = document.getElementById('gameboard');
+        const turnDisplay = document.getElementById('turn');
+
+        let board = [
+            ["W", "W", "W"],
+            [null, null, null],
+            ["B", "B", "B"]
+        ];
+
+        let currentPlayer = "W";
+        let selectedPiece = null;
+
+        function renderBoard() {
+            gameboard.innerHTML = '';
+
+            for (let row = 0; row < 3; row++) {
+                for (let col = 0; col < 3; col++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+
+                    if ((row + col) % 2 === 0) {
+                        cell.classList.add('white');
+                    } else {
+                        cell.classList.add('black');
+                    }
+
+                    if (board[row][col] === "W") {
+                        cell.classList.add('white-pawn');
+                        cell.textContent = "♙"; 
+                    } else if (board[row][col] === "B") {
+                        cell.classList.add('black-pawn');
+                        cell.textContent = "♟︎"; 
+                    }
+
+                    cell.addEventListener('click', () => handleClick(row, col));
+                    gameboard.appendChild(cell);
+                }
+            }
+        }
+
+        function handleClick(row, col) {
+            const piece = board[row][col];
+
+            if (selectedPiece && selectedPiece.row === row && selectedPiece.col === col) {
+                selectedPiece = null;
+                renderBoard(); 
+                return; 
+            }
+
+            if (piece === currentPlayer) {
+                selectedPiece = { row, col };
+                renderBoard(); 
+                return;
+            }
+
+            if (selectedPiece) {
+                let moveToRow = selectedPiece.row;
+                let moveToCol = selectedPiece.col;
+
+                if (currentPlayer === "W") moveToRow--;
+                if (currentPlayer === "B") moveToRow++;
+
+                if (moveToCol === col && board[moveToRow][moveToCol] === null) {
+                    makeMove(moveToRow, moveToCol);
+                }
+
+                if (Math.abs(moveToCol - col) === 1 && board[moveToRow][moveToCol] && board[moveToRow][moveToCol] !== currentPlayer) {
+                    makeMove(moveToRow, moveToCol);
+                }
+
+                selectedPiece = null; 
+            }
+        }
+
+        function makeMove(row, col) {
+            board[selectedPiece.row][selectedPiece.col] = null; 
+            board[row][col] = currentPlayer; 
+            switchTurn(); 
+            renderBoard(); 
+        }
+
+        function switchTurn() {
+            currentPlayer = currentPlayer === "W" ? "B" : "W";
+            turnDisplay.textContent = currentPlayer + "'s Turn"; 
+        }
+
+        renderBoard(); 
+    </script>
 </body>
 </html>
