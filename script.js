@@ -1,20 +1,23 @@
-const secretWord = "Hello";
-let guessesRemaining = 1;
+const correctSequence = ["circle", "square", "triangle", "circle"];
+let currentStep = 0;
+const message = document.getElementById("message");
 
-function checkPassword() {
-    const passwordInput = document.getElementById("passwordInput");
-    const message = document.getElementById("message");
+function shapeClicked(shapeClass) {
+    if (shapeClass === correctSequence[currentStep]) {
+        message.textContent = "Correct!";
+        currentStep++;
 
-    if (passwordInput.value === secretWord) {
-        // Successful login - Redirect to your website
-        window.location.href = "https://aidenlapinsky.github.io/38dhfh402jfjfj29r84kdk02958jdjfjfksl03847502/#"; 
-    } else {
-        guessesRemaining--;
-        message.textContent = "Incorrect! You have " + guessesRemaining + " guesses left.";
-
-        if (guessesRemaining === 0) {
-            passwordInput.style.display = "none"; // Hide the input
-            message.textContent = "Access Denied!";
+        if (currentStep === correctSequence.length) {
+            // All shapes correct - Redirect
+            window.location.href = "https://aidenlapinsky.github.io/38dhfh402jfjfj29r84kdk02958jdjfjfksl03847502/#"; 
         }
+    } else {
+        message.textContent = "Incorrect! Try again.";
+        currentStep = 0; // Reset the sequence
     }
 }
+
+const shapeButtons = document.querySelectorAll(".shape");
+shapeButtons.forEach(button => {
+    button.addEventListener("click", () => shapeClicked(button.classList[1])); 
+});
