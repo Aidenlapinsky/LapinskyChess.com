@@ -1,59 +1,53 @@
-const correctSequence = ["circle", "square", "triangle", "circle"];
-let currentStep = 0;
-let userSequence = [];
-const message = document.getElementById("message");
-const shapesContainer = document.getElementById("shapes");
-const submitButton = document.getElementById("submitButton");
+const gameBoard = document.getElementById('game-board');
+const scoreDisplay = document.getElementById('score');
+let snake = [ {x: 5, y: 5} ]; // Initial snake position
+let food = {}; 
+let score = 0;
+let direction = 'right'; // Initial direction
 
-function shapeClicked(shapeClass) {
-    userSequence.push(shapeClass); 
-
-    if (shapeClass === correctSequence[currentStep]) {
-        message.textContent = "Correct!";
-        currentStep++;
-    } else {
-        message.textContent = "Incorrect! Try again.";
-        resetGame();
-    }
+function generateFood() {
+    // Logic to create food randomly 
 }
 
-function resetGame() {
-    currentStep = 0;
-    userSequence = [];
+function moveSnake() {
+    // Logic to move snake based on 'direction'
 }
 
-function checkSequence() {
-    if (arraysMatch(userSequence, correctSequence)) {
-        window.location.href = "https://aidenlapinsky.github.io/38dhfh402jfjfj29r84kdk02958jdjfjfksl03847502/#";
-    } else {
-        message.textContent = "Incorrect sequence! Try again.";
-        resetGame();
-    }
+function checkCollisions() {
+    // Logic to detect wall collisions and self-collisions
 }
 
-function arraysMatch(arr1, arr2) {
-    if (arr1.length !== arr2.length) return false;
-    for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i] !== arr2[i]) return false;
-    }
-    return true;
-}
+function renderGame() {
+    gameBoard.innerHTML = ''; // Reset board
 
-function createShapeButtons() {
-    correctSequence.forEach(shape => {
-        const button = document.createElement("button");
-        button.classList.add("shape", shape);
-        shapesContainer.appendChild(button);
+    // Render snake
+    snake.forEach(part => {
+        let snakeElement = document.createElement('div');
+        snakeElement.classList.add('snake');
+        snakeElement.style.gridRowStart = part.y;
+        snakeElement.style.gridColumnStart = part.x;
+        gameBoard.appendChild(snakeElement);
     });
+
+    // Render food
+    let foodElement = document.createElement('div');
+    foodElement.classList.add('apple');
+    foodElement.style.gridRowStart = food.y;
+    foodElement.style.gridColumnStart = food.x;
+    gameBoard.appendChild(foodElement);
 }
 
-// Create buttons on page load
-window.addEventListener('load', createShapeButtons);
+function startGame() {
+    generateFood();
+    setInterval(gameLoop, 100); // Speed of game
+}
 
-// Event listeners 
-const shapeButtons = document.querySelectorAll(".shape");  
-shapeButtons.forEach(button => {
-    button.addEventListener("click", () => shapeClicked(button.classList[1])); 
-});
+function gameLoop() {
+    moveSnake();
+    checkCollisions();
+    renderGame();
+}
 
-submitButton.addEventListener("click", checkSequence);
+// Add touch event listeners for swipe controls (more complex) 
+
+startGame();
