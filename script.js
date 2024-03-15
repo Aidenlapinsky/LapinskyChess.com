@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 
 // Game settings
 const gridSize = 20;
-const cellSize = canvas.width / gridSize;
+const cellSize = canvas.width / gridSize; // Calculate cell size based on canvas width
 let snake = [
     { x: gridSize / 2, y: gridSize / 2 },
 ];
@@ -14,6 +14,7 @@ let apple = {
 let speed = 1;
 let gameOver = false;
 let lastTimestamp = 0;
+let direction = { x: 0, y: 1 }; // Initial direction: down
 
 function mainLoop(timestamp) {
     const deltaTime = (timestamp - lastTimestamp) / 1000;
@@ -28,8 +29,6 @@ function mainLoop(timestamp) {
 }
 
 function update(deltaTime) {
-    const direction = getDirection();
-
     // Check for collisions
     if (isCollision()) {
         gameOver = true;
@@ -60,7 +59,8 @@ function update(deltaTime) {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw grid
+    // Draw grid (optional, can be removed)
+    /*
     ctx.strokeStyle = 'black';
     for (let i = 0; i <= gridSize; i++) {
         ctx.beginPath();
@@ -73,6 +73,7 @@ function draw() {
         ctx.lineTo(canvas.width, i * cellSize);
         ctx.stroke();
     }
+    */
 
     // Draw snake
     ctx.fillStyle = 'green';
@@ -101,3 +102,10 @@ function isCollision() {
     return (
         head.x < 0 ||
         head.x >= gridSize ||
+        head.y < 0 ||
+        head.y >= gridSize ||
+        snake.some((cell, index) => index !== 0 && cell.x === head.x && cell.y === head.y)
+    );
+}
+
+// Handle
