@@ -1,23 +1,12 @@
-.game-container {
-    width: 400px;
-    height: 400px;
-    margin: 20px auto;
-    border: 2px solid #ccc;
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
 }
 
-#game-board {
-    width: 100%; 
-    height: 100%; 
-    background-color: #eee;
-    display: grid; 
-    grid-template-columns: repeat(10, 1fr); /* Adjust for grid size */
-    grid-template-rows: repeat(10, 1fr); /* Adjust for grid size */
-}
-
-.snake {
-    background-color: green;
-}
-
-.apple {
-    background-color: red;
+#game-canvas {
+    border: 1px solid black;
+    background-color: #ddd;
 }
