@@ -1,53 +1,103 @@
-const gameBoard = document.getElementById('game-board');
-const scoreDisplay = document.getElementById('score');
-let snake = [ {x: 5, y: 5} ]; // Initial snake position
-let food = {}; 
-let score = 0;
-let direction = 'right'; // Initial direction
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
 
-function generateFood() {
-    // Logic to create food randomly 
+// Game settings
+const gridSize = 20;
+const cellSize = canvas.width / gridSize;
+let snake = [
+    { x: gridSize / 2, y: gridSize / 2 },
+];
+let apple = {
+    x: getRandomInt(gridSize),
+    y: getRandomInt(gridSize),
+};
+let speed = 1;
+let gameOver = false;
+let lastTimestamp = 0;
+
+function mainLoop(timestamp) {
+    const deltaTime = (timestamp - lastTimestamp) / 1000;
+    lastTimestamp = timestamp;
+
+    update(deltaTime);
+    draw();
+
+    if (!gameOver) {
+        requestAnimationFrame(mainLoop);
+    }
 }
 
-function moveSnake() {
-    // Logic to move snake based on 'direction'
+function update(deltaTime) {
+    const direction = getDirection();
+
+    // Check for collisions
+    if (isCollision()) {
+        gameOver = true;
+        return;
+    }
+
+    // Update snake head position
+    const newHead = {
+        x: snake[0].x + direction.x * speed * deltaTime,
+        y: snake[0].y + direction.y * speed * deltaTime,
+    };
+
+    // Check for apple collision
+    if (newHead.x === apple.x && newHead.y === apple.y) {
+        snake.push(snake[snake.length - 1]); // Grow snake
+        apple = {
+            x: getRandomInt(gridSize),
+            y: getRandomInt(gridSize),
+        };
+    } else {
+        // Move snake (tail disappears, head appears)
+        snake.shift(); // Remove tail
+    }
+
+    snake.unshift(newHead); // Add new head
 }
 
-function checkCollisions() {
-    // Logic to detect wall collisions and self-collisions
-}
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-function renderGame() {
-    gameBoard.innerHTML = ''; // Reset board
+    // Draw grid
+    ctx.strokeStyle = 'black';
+    for (let i = 0; i <= gridSize; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * cellSize, 0);
+        ctx.lineTo(i * cellSize, canvas.height);
+        ctx.stroke();
 
-    // Render snake
-    snake.forEach(part => {
-        let snakeElement = document.createElement('div');
-        snakeElement.classList.add('snake');
-        snakeElement.style.gridRowStart = part.y;
-        snakeElement.style.gridColumnStart = part.x;
-        gameBoard.appendChild(snakeElement);
+        ctx.beginPath();
+        ctx.moveTo(0, i * cellSize);
+        ctx.lineTo(canvas.width, i * cellSize);
+        ctx.stroke();
+    }
+
+    // Draw snake
+    ctx.fillStyle = 'green';
+    snake.forEach(cell => {
+        ctx.fillRect(cell.x * cellSize, cell.y * cellSize, cellSize, cellSize);
     });
 
-    // Render food
-    let foodElement = document.createElement('div');
-    foodElement.classList.add('apple');
-    foodElement.style.gridRowStart = food.y;
-    foodElement.style.gridColumnStart = food.x;
-    gameBoard.appendChild(foodElement);
+    // Draw apple
+    ctx.fillStyle = 'red';
+    ctx.fillRect(apple.x * cellSize, apple.y * cellSize, cellSize, cellSize);
+
+    // Game Over text
+    if (gameOver) {
+        ctx.font = '40px Arial';
+        ctx.fillStyle = 'black';
+        ctx.fillText('Game Over!', canvas.width / 2 - 100, canvas.height / 2);
+    }
 }
 
-function startGame() {
-    generateFood();
-    setInterval(gameLoop, 100); // Speed of game
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
 }
 
-function gameLoop() {
-    moveSnake();
-    checkCollisions();
-    renderGame();
-}
-
-// Add touch event listeners for swipe controls (more complex) 
-
-startGame();
+function isCollision() {
+    const head = snake[0];
+    return (
+        head.x < 0 ||
+        head.x >= gridSize ||
