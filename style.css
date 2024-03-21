@@ -1,13 +1,23 @@
 body {
-    font-family: sans-serif;
-    margin: 40px;
+    font-family: Arial, sans-serif;
+    margin: 0; /* Remove default margins */  
+}
+
+.container {
+    width: 600px;
+    margin: 40px auto; /* Center the content */
     text-align: center;
 }
 
-h1 {
+.logo {
+    width: 250px;
+    margin-bottom: 30px;
+}
+
+.search-container {
     margin-bottom: 20px;
 }
 
-p {
-    margin-bottom: 30px;
+#results h2 { /* Style the fact heading */
+    color: #0066CC; /* A blue-ish color */
 }
