@@ -1,71 +1,75 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0; 
-}
+    font-family: 'Segoe UI', Tahoma, sans-serif; 
+    margin: 0;
+    background-color: #f2f2f2; 
+    color: #333;
+} 
 
 .container {
-    width: 600px;
-    margin: 0 auto; 
+    background-color: #fff; 
+    width: 700px;
+    margin: 40px auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); 
+    border-radius: 8px;
+    padding: 30px;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
 }
 
-.logo {
-    font-size: 24px; 
-    color: #0066CC; 
-    font-weight: bold;
-    text-decoration: none; 
+.header h1 { 
+    margin: 0;
 }
 
-.nav {
+nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex; 
 }
 
-.nav li {
-    margin-right: 15px; 
+nav li {
+    display: inline-block; 
+    margin-left: 20px; 
 }
 
-.nav li a {
+nav a { 
     text-decoration: none;
     color: #555;
 }
 
-.more-apps img,
-.voice-search img {
-    width: 20px;
-}
-
-.sign-in {
-    color: #0066CC;
-}
-
 .search-area {
-    margin: 30px 0; 
-    text-align: center; 
+    text-align: center;
 }
 
 .search-container {
-    border: 1px solid #ccc;
-    border-radius: 20px; 
-    padding: 8px; 
-    display: flex; 
-    align-items: center;
+    background-color: #fafafa; 
+    display: inline-block; /* To center horizontally*/
+    padding: 10px 20px;
+    border-radius: 30px; 
 }
 
 #search-box {
-    flex: 1;  
     border: none;
-    outline: none; 
-    padding: 8px 10px; 
+    outline: none;
+    background-color: transparent; 
+    font-size: 16px; 
+    padding: 8px;
+    width: 400px; 
+}
+
+#search-button {
+    background-color: #4285F4;
+    color: #fff;
+    border: none;
+    border-radius: 5px; 
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-left: 10px; 
+    font-size: 15px;
 }
 
 .buttons {
@@ -73,10 +77,12 @@ body {
 }
 
 .buttons button {
-    padding: 10px 15px;
-    background-color: #f8f8f8;
-    border: 1px solid #ccc;
-    border-radius: 4px; 
-    margin-right: 5px; 
+    background-color: #f2f2f2;
+    color: #555;
+    border: none;
+    border-radius: 5px; 
+    padding: 10px 20px;
     cursor: pointer;
-}
+    margin-right: 10px;
+    font-size: 15px;
+} 
