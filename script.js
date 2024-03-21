@@ -12,12 +12,15 @@ const facts = {
     "dog": [
         "Dogs have a great sense of smell.",
         "There are hundreds of dog breeds in the world.",
-        "A dog's tail wag can express different emotions." 
+        "A dog's tail wag can express different emotions." 
     ]
 };
 
+const curiousWords = ["aurora", "plankton", "quokka", "tides", "meteor", "narwhal"]; // Add more!
+
 const searchBox = document.getElementById('search-box');
 const searchButton = document.getElementById('search-button');
+const curiousButton = document.getElementById('curious-button'); // Assuming you have this button in your HTML
 const resultsDiv = document.getElementById('results');
 
 searchButton.addEventListener('click', () => {
@@ -31,13 +34,24 @@ searchButton.addEventListener('click', () => {
     }
 });
 
+curiousButton.addEventListener('click', () => {
+    const randomWord = curiousWords[Math.floor(Math.random() * curiousWords.length)];
+    searchBox.value = randomWord; 
+
+    // Check if we have facts for the curious word
+    if (findMatchingTopic(randomWord)) {
+        searchButton.click(); // Trigger the search if facts exist
+    } else {
+        resultsDiv.textContent = `Hmm, I don't know any facts about ${randomWord} yet. Let's learn together!`;
+    }
+});
+
 function findMatchingTopic(query) {
     return Object.keys(facts).find(topic => query.includes(topic));
 }
 
 function displayFacts(topic) {
-    resultsDiv.innerHTML = ''; // Clear previous results
-
+    resultsDiv.innerHTML = ''; 
     const heading = document.createElement('h2');
     heading.textContent = `Fun Facts about ${topic}:`;
     resultsDiv.appendChild(heading);
