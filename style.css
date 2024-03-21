@@ -1,88 +1,51 @@
 body {
-    font-family: 'Segoe UI', Tahoma, sans-serif; 
+    font-family: 'Roboto', sans-serif; /* Updated font */
     margin: 0;
-    background-color: #f2f2f2; 
-    color: #333;
+    background-color: #f8f9fa; /* Slightly warmer background */
+    color: #202124; /* Darker text */
 } 
 
 .container {
+    /* ... (Existing styles) ... */
     background-color: #fff; 
-    width: 700px;
-    margin: 40px auto;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); 
-    border-radius: 8px;
-    padding: 30px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
+    border: 1px solid #e0e0e0; /* Subtle border */
 }
 
 .header h1 { 
     margin: 0;
-}
-
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-nav li {
-    display: inline-block; 
-    margin-left: 20px; 
+    color: #1a73e8; /* A touch of blue */
 }
 
 nav a { 
     text-decoration: none;
-    color: #555;
-}
-
-.search-area {
-    text-align: center;
+    color: #606468; /* Slightly muted link color */
 }
 
 .search-container {
-    background-color: #fafafa; 
-    display: inline-block; /* To center horizontally*/
-    padding: 10px 20px;
-    border-radius: 30px; 
-}
-
-#search-box {
-    border: none;
-    outline: none;
-    background-color: transparent; 
-    font-size: 16px; 
-    padding: 8px;
-    width: 400px; 
+    background-color: #fff; /* Brighter white */
+    /* ... (Existing styles) ... */
 }
 
 #search-button {
-    background-color: #4285F4;
-    color: #fff;
-    border: none;
-    border-radius: 5px; 
-    padding: 10px 15px;
-    cursor: pointer;
-    margin-left: 10px; 
-    font-size: 15px;
-}
-
-.buttons {
-    margin-top: 20px;
+    background-color: #1a73e8; /* Blue button */
+    /* ... (Existing styles) ... */
 }
 
 .buttons button {
-    background-color: #f2f2f2;
-    color: #555;
-    border: none;
-    border-radius: 5px; 
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-right: 10px;
-    font-size: 15px;
+    background-color: #f8f9fa; /* Slightly lighter background */
+    color: #3c4043; /* Darker button text */
+    /* ... (Existing styles) ... */
 } 
+
+/* Design Element */
+.search-area::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); 
+    bottom: -30px;
+    width: 180px;
+    height: 60px;
+    background-color: #e8f0fe; /* Light blue */
+    border-radius: 50%; /* Soft curved shape */
+}
