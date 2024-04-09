@@ -3,15 +3,23 @@ const wordList = ["apple", "crane", "train", ...];
 
 // Date-based word selection
 function getDailyWordSeed() {
-  // ... (same as before) ...
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); 
+  const origin = new Date(2022, 0, 0); 
+  const msDifference = today.getTime() - origin.getTime(); 
+  const dayDifference = Math.floor(msDifference / (1000 * 60 * 60 * 24));
+  return dayDifference;
 }
 
 function seededRandom(seed, max) {
-  // ... (same as before) ... 
+  const x = Math.sin(seed++) * 10000;
+  return Math.floor((x - Math.floor(x)) * max);
 }
 
 function chooseRandomWord(list) {
-  // ... (same as before) ...
+  const seed = getDailyWordSeed(); 
+  const index = seededRandom(seed, wordList.length);
+  return wordList[index];
 }
 
 // Game State
@@ -20,7 +28,17 @@ const answer = chooseRandomWord(wordList);
 
 // Grid Building
 function buildGrid() {
-  // ... (same as before) ...
+  const gameBoard = document.querySelector('.game-board');
+  for (let i = 0; i < 6; i++) { 
+    let row = document.createElement('div');
+    row.classList.add('row'); // Add a class for easier styling
+    for (let j = 0; j < 5; j++) { 
+      let tile = document.createElement('div');
+      tile.classList.add('tile'); 
+      row.appendChild(tile);
+    }
+    gameBoard.appendChild(row);
+  }
 }
 
 // Fetching the current word
@@ -33,13 +51,16 @@ function getCurrentWord() {
 
 // Updating tile colors
 function updateTile(tile, letter, status) {
-  // ... (same as before) ...
+  tile.textContent = letter;
+  tile.classList.add(status); 
 }
 
 // Handling key presses
 function handleKeyPress(key) {
-  if (key.length === 1 && /^[a-z]$/i.test(key)) { // Process only letters
-    // ... Input into the current row ...
+  if (currentRow >= 6) return; // Game over
+
+  if (key.length === 1 && /^[a-z]$/i.test(key)) { 
+    // ... Add letters to the current row (update tiles) ...
   } else if (key === "Enter") {
     const guessedWord = getCurrentWord();
     if (guessedWord.length !== 5) {
@@ -47,19 +68,27 @@ function handleKeyPress(key) {
       return; 
     }
 
-    // Color-coding logic
+    // ... Check if word is in the wordList ...
+
+    // Color-coding logic 
     for (let i = 0; i < guessedWord.length; i++) {
       // ... (same as before) ...
     }
 
-    // ... Handle next row, win/loss ...
+    currentRow++; 
+    // ... Check for win or game over ... 
   } else if (key === "Backspace") {
-    // ... Handle removing letters ...
+    // ... Remove letters from the current row (update tiles) ...
   }
 }
 
-// Event Listener
-document.addEventListener('keydown', handleKeyPress);
+// Event Listeners for on-screen keyboard
+const keyboardKeys = document.querySelectorAll('.key');
+keyboardKeys.forEach(key => {
+  key.addEventListener('click', () => {
+    handleKeyPress(key.textContent); 
+  });
+});
 
 // Start Game
 buildGrid();
