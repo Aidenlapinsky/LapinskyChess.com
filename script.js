@@ -1,66 +1,65 @@
-const facts = {
-    "banana": [ 
-        "Bananas are technically berries!",
-        "A cluster of bananas is called a hand, and a single banana is a finger.",
-        "Bananas are a good source of potassium and vitamin C."
-    ],
-    "apple": [
-        "An apple a day keeps the doctor away.",
-        "Apples come in many varieties – red, green, yellow, and more!",
-        "The heaviest apple ever weighed over 3 pounds."
-    ],
-    "dog": [
-        "Dogs have a great sense of smell.",
-        "There are hundreds of dog breeds in the world.",
-        "A dog's tail wag can express different emotions." 
-    ]
-};
+// Word List
+const wordList = ["apple", "crane", "train", ...]; 
 
-const curiousWords = ["aurora", "plankton", "quokka", "tides", "meteor", "narwhal"]; // Add more!
-
-const searchBox = document.getElementById('search-box');
-const searchButton = document.getElementById('search-button');
-const curiousButton = document.getElementById('curious-button'); // Assuming you have this button in your HTML
-const resultsDiv = document.getElementById('results');
-
-searchButton.addEventListener('click', () => {
-    const query = searchBox.value.toLowerCase();
-    const matchingTopic = findMatchingTopic(query);
-
-    if (matchingTopic) {
-        displayFacts(matchingTopic);
-    } else {
-        resultsDiv.textContent = 'Sorry, I don\'t know any facts about that yet.';
-    }
-});
-
-curiousButton.addEventListener('click', () => {
-    const randomWord = curiousWords[Math.floor(Math.random() * curiousWords.length)];
-    searchBox.value = randomWord; 
-
-    // Check if we have facts for the curious word
-    if (findMatchingTopic(randomWord)) {
-        searchButton.click(); // Trigger the search if facts exist
-    } else {
-        resultsDiv.textContent = `Hmm, I don't know any facts about ${randomWord} yet. Let's learn together!`;
-    }
-});
-
-function findMatchingTopic(query) {
-    return Object.keys(facts).find(topic => query.includes(topic));
+// Date-based word selection
+function getDailyWordSeed() {
+  // ... (same as before) ...
 }
 
-function displayFacts(topic) {
-    resultsDiv.innerHTML = ''; 
-    const heading = document.createElement('h2');
-    heading.textContent = `Fun Facts about ${topic}:`;
-    resultsDiv.appendChild(heading);
-
-    const factList = document.createElement('ul');
-    facts[topic].forEach(fact => {
-        const listItem = document.createElement('li');
-        listItem.textContent = fact;
-        factList.appendChild(listItem);
-    });
-    resultsDiv.appendChild(factList);
+function seededRandom(seed, max) {
+  // ... (same as before) ... 
 }
+
+function chooseRandomWord(list) {
+  // ... (same as before) ...
+}
+
+// Game State
+let currentRow = 0;
+const answer = chooseRandomWord(wordList);
+
+// Grid Building
+function buildGrid() {
+  // ... (same as before) ...
+}
+
+// Fetching the current word
+function getCurrentWord() {
+  const rowTiles = document.querySelectorAll('.game-board > div')[currentRow].childNodes;
+  let word = "";
+  rowTiles.forEach(tile => word += tile.textContent);
+  return word;
+}
+
+// Updating tile colors
+function updateTile(tile, letter, status) {
+  // ... (same as before) ...
+}
+
+// Handling key presses
+function handleKeyPress(key) {
+  if (key.length === 1 && /^[a-z]$/i.test(key)) { // Process only letters
+    // ... Input into the current row ...
+  } else if (key === "Enter") {
+    const guessedWord = getCurrentWord();
+    if (guessedWord.length !== 5) {
+      // ... Handle incomplete guess ...
+      return; 
+    }
+
+    // Color-coding logic
+    for (let i = 0; i < guessedWord.length; i++) {
+      // ... (same as before) ...
+    }
+
+    // ... Handle next row, win/loss ...
+  } else if (key === "Backspace") {
+    // ... Handle removing letters ...
+  }
+}
+
+// Event Listener
+document.addEventListener('keydown', handleKeyPress);
+
+// Start Game
+buildGrid();
