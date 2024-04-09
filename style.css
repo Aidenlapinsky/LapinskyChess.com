@@ -1,8 +1,16 @@
-/* Basic Styling - Expand this with your design! */
+body {
+  min-height: 100vh; 
+  display: flex;     
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  font-family: Arial, sans-serif; /* Example font */
+}
+
 .game-board { 
-  display: grid;
-  grid-template-columns: repeat(5, 1fr); 
-  gap: 5px;
+ display: grid;
+ grid-template-columns: repeat(5, 1fr); 
+ gap: 5px;
 }
 
 .tile {
@@ -10,19 +18,26 @@
   font-size: 20px;
   text-align: center;
   padding: 10px; 
+  box-sizing: border-box; /* Important for consistent sizing */
 }
 
-.green {
-  background-color: green;
-  color: white;
+.green { background-color: green; color: white; }
+.yellow { background-color: yellow; color: black; }
+.gray { background-color: darkgray; color: white; } 
+
+.keyboard-row {
+  display: flex; 
+  justify-content: center; 
+  margin-bottom: 5px; 
 }
 
-.yellow {
-  background-color: yellow;
-  color: black;
+.key {
+  width: 30px; 
+  height: 40px; 
+  margin: 2px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: #f0f0f0;  
+  font-size: 16px;
+  cursor: pointer; /* Indicate that it's clickable */
 }
-
-.gray {
-  background-color: darkgray;
-  color: white;
-} 
