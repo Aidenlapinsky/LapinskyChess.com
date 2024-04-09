@@ -1,51 +1,28 @@
-body {
-    font-family: 'Roboto', sans-serif; /* Updated font */
-    margin: 0;
-    background-color: #f8f9fa; /* Slightly warmer background */
-    color: #202124; /* Darker text */
+/* Basic Styling - Expand this with your design! */
+.game-board { 
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 5px;
+}
+
+.tile {
+  border: 1px solid gray; 
+  font-size: 20px;
+  text-align: center;
+  padding: 10px; 
+}
+
+.green {
+  background-color: green;
+  color: white;
+}
+
+.yellow {
+  background-color: yellow;
+  color: black;
+}
+
+.gray {
+  background-color: darkgray;
+  color: white;
 } 
-
-.container {
-    /* ... (Existing styles) ... */
-    background-color: #fff; 
-    border: 1px solid #e0e0e0; /* Subtle border */
-}
-
-.header h1 { 
-    margin: 0;
-    color: #1a73e8; /* A touch of blue */
-}
-
-nav a { 
-    text-decoration: none;
-    color: #606468; /* Slightly muted link color */
-}
-
-.search-container {
-    background-color: #fff; /* Brighter white */
-    /* ... (Existing styles) ... */
-}
-
-#search-button {
-    background-color: #1a73e8; /* Blue button */
-    /* ... (Existing styles) ... */
-}
-
-.buttons button {
-    background-color: #f8f9fa; /* Slightly lighter background */
-    color: #3c4043; /* Darker button text */
-    /* ... (Existing styles) ... */
-} 
-
-/* Design Element */
-.search-area::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%); 
-    bottom: -30px;
-    width: 180px;
-    height: 60px;
-    background-color: #e8f0fe; /* Light blue */
-    border-radius: 50%; /* Soft curved shape */
-}
