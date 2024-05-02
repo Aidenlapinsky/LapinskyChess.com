@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Wordle Clone</title>
-  <link rel="stylesheet" href="style.css"> 
-</head>
-<body>
-  <h1>Wordle</h1>
-  <div class="game-board"></div>
-  <div class="keyboard">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Protected Page</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Password Protected Page</h1>
+      <form id="passwordForm">
+        <label for="password">Enter password:</label>
+        <input type="password" id="password" maxlength="4" required />
+        <button type="submit">Submit</button>
+      </form>
+      <div class="error-message" id="errorMessage">Invalid password. Please try again.</div>
+      <div class="success-message" id="successMessage">Password is correct!</div>
     </div>
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
