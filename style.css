@@ -1,43 +1,101 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+.wrapper {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  min-height: 100vh; 
-  display: flex;     
-  flex-direction: column;
-  align-items: center; 
-  justify-content: center; 
-  font-family: Arial, sans-serif; /* Example font */
+  font-family: sans-serif;
+  background-color: #f9fbfd;
 }
 
-.game-board { 
- display: grid;
- grid-template-columns: repeat(5, 1fr); 
- gap: 5px;
+.wrapper {
+  padding-top: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-.tile {
-  border: 1px solid gray; 
-  font-size: 20px;
+header {
   text-align: center;
-  padding: 10px; 
-  box-sizing: border-box; /* Important for consistent sizing */
+  padding: 20px;
+  padding-top: 0px;
+  color: hsl(206, 17%, 28%);
 }
 
-.green { background-color: green; color: white; }
-.yellow { background-color: yellow; color: black; }
-.gray { background-color: darkgray; color: white; } 
-
-.keyboard-row {
-  display: flex; 
-  justify-content: center; 
-  margin-bottom: 5px; 
-}
-
-.key {
-  width: 30px; 
-  height: 40px; 
-  margin: 2px;
-  border: 1px solid gray;
+.card {
+  background-color: hsl(0, 0%, 100%);
   border-radius: 5px;
-  background-color: #f0f0f0;  
-  font-size: 16px;
-  cursor: pointer; /* Indicate that it's clickable */
+  border-width: 1px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px 0px;
+  color: hsl(206, 17%, 28%);
+  font-size: 18px;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 30px 40px;
+}
+
+.card-header::after {
+  content: " ";
+  display: block;
+  width: 100%;
+  background: #e7e9eb;
+  height: 2px;
+}
+
+.card-body {
+  min-height: 100px;
+}
+
+.card-footer {
+  text-align: center;
+}
+
+.card-footer::before {
+  content: " ";
+  display: block;
+  width: 100%;
+  background: #e7e9eb;
+  height: 2px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0 auto;
+  width: 300px;
+}
+
+.error-message {
+  display: none;
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.success-message {
+  display: none;
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+#password {
+  font-size: 1rem;
+}
+
+@media (max-width: 500px) {
+  .btn {
+    font-size: 0.8rem;
+  }
 }
