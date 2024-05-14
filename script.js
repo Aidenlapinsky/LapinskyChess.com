@@ -20,15 +20,18 @@ passwordForm.addEventListener("submit", (event) => {
       window.location.href = "success.html";
     }, 2000);
   } else if (attempts < 3) {
-    errorMessage.style.display = "block";
-    passwordInput.value = "";
+    showErrorMessage();
   } else {
-    errorMessage.style.display = "block";
-    passwordInput.value = "";
+    showErrorMessage();
     correctPassword = generateRandomPassword();
     attempts = 0;
   }
 });
+
+function showErrorMessage() {
+  errorMessage.style.display = "block";
+  passwordInput.value = "";
+}
 
 function generateRandomPassword() {
   const characters =
@@ -41,3 +44,4 @@ function generateRandomPassword() {
 
   return password;
 }
+
