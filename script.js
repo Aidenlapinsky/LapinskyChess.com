@@ -25,6 +25,8 @@ passwordForm.addEventListener("submit", (event) => {
     showErrorMessage();
     correctPassword = generateRandomPassword();
     attempts = 0;
+    passwordInput.value = "";
+    alert("Max attempts reached. The correct password has been changed.");
   }
 });
 
@@ -44,4 +46,3 @@ function generateRandomPassword() {
 
   return password;
 }
-
