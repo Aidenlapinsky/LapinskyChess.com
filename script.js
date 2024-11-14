@@ -37,7 +37,7 @@ function showErrorMessage() {
 
 function generateRandomPassword() {
   const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    "AAAA";
   let password = "";
 
   for (let i = 0; i < 4; i++) {
